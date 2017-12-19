@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9EE3D1E8-CAEB-4ED3-9BBF-0271EF1CEC06}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Tutor_Server</RootNamespace>
+    <AssemblyName>Tutor_Server</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ts_vc0_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Converters\timeConverter.cs" />
+    <Compile Include="Model\Data\AccountDetails.cs" />
+    <Compile Include="Model\Data\AccountDetailsResponse.cs" />
+    <Compile Include="Model\Data\Acknowledge.cs" />
+    <Compile Include="Model\Data\AddToFavorites.cs" />
+    <Compile Include="Model\Data\AvailUsername.cs" />
+    <Compile Include="Model\Data\Comment.cs" />
+    <Compile Include="Model\Data\CourseDetails.cs" />
+    <Compile Include="Model\Data\CourseListRequest.cs" />
+    <Compile Include="Model\Data\CourseListResponse.cs" />
+    <Compile Include="Model\Data\CreateAccount.cs" />
+    <Compile Include="Model\Data\CreateCourseRequest.cs" />
+    <Compile Include="Model\Data\CreateVideoRequest.cs" />
+    <Compile Include="Model\Data\CreateVideoResponse.cs" />
+    <Compile Include="Model\Data\DeleteComment.cs" />
+    <Compile Include="Model\Data\DeleteCourseRequest.cs" />
+    <Compile Include="Model\Data\DeleteFavorite.cs" />
+    <Compile Include="Model\Data\DeleteVideoRequest.cs" />
+    <Compile Include="Model\Data\EditCourseVideos.cs" />
+    <Compile Include="Model\Data\EditCourseVideosResponse.cs" />
+    <Compile Include="Model\Data\FavoritesRequest.cs" />
+    <Compile Include="Model\Data\FavoritesResponse.cs" />
+    <Compile Include="Model\Data\HomePageResponse.cs" />
+    <Compile Include="Model\Data\HomeRequest.cs" />
+    <Compile Include="Model\Data\LikeComment.cs" />
+    <Compile Include="Model\Data\LikeVideo.cs" />
+    <Compile Include="Model\Data\PostComment.cs" />
+    <Compile Include="Model\Data\ProfileUpdateRequest.cs" />
+    <Compile Include="Model\Data\ProfileUpdateResponse.cs" />
+    <Compile Include="Model\Data\RatingRequest.cs" />
+    <Compile Include="Model\Data\RatingResponse.cs" />
+    <Compile Include="Model\Data\Request.cs" />
+    <Compile Include="Model\Data\RequestType.cs" />
+    <Compile Include="Model\Data\Response.cs" />
+    <Compile Include="Model\Data\ResponseType.cs" />
+    <Compile Include="Model\Data\Search.cs" />
+    <Compile Include="Model\Data\SearchResponse.cs" />
+    <Compile Include="Model\Data\SearchType.cs" />
+    <Compile Include="Model\Data\SignIn.cs" />
+    <Compile Include="Model\Data\SignInResponse.cs" />
+    <Compile Include="Model\Data\Status.cs" />
+    <Compile Include="Model\Data\User.cs" />
+    <Compile Include="Model\Data\Video.cs" />
+    <Compile Include="Model\Data\VideoDetails.cs" />
+    <Compile Include="Model\Data\VideoMini.cs" />
+    <Compile Include="Model\Data\VideoUpdateRequest.cs" />
+    <Compile Include="Model\Data\VideoUpdateResponse.cs" />
+    <Compile Include="Model\Manager\Client.cs" />
+    <Compile Include="Model\Manager\DatabaseManager.cs" />
+    <Compile Include="Model\Manager\MainServer.cs" />
+    <Compile Include="Model\Manager\RequestHandlers.cs" />
+    <Compile Include="Model\Manager\SettingsManager.cs" />
+    <Compile Include="Model\Manager\StatusManager.cs" />
+    <Compile Include="Pages\Database_Settings.xaml.cs">
+      <DependentUpon>Database_Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\General Settings.xaml.cs">
+      <DependentUpon>General Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User_Control\ListItem.xaml.cs">
+      <DependentUpon>ListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User_Control\SignalButton.xaml.cs">
+      <DependentUpon>SignalButton.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Pages\Database_Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\General Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Home_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User_Control\ListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User_Control\SignalButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Pages\Home_Page.xaml.cs">
+      <DependentUpon>Home_Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="Assets\Roboto\Roboto-Black.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-BlackItalic.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-Bold.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-BoldItalic.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-Italic.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-Light.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-LightItalic.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-Medium.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-MediumItalic.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-Regular.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-Thin.ttf" />
+    <Resource Include="Assets\Roboto\Roboto-ThinItalic.ttf" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\ts_vc0_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Roboto\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ts_vc0_icon.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

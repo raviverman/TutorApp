@@ -1,0 +1,543 @@
+﻿<Window x:Class="Tutor.VideoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tutor"
+        xmlns:UC="clr-namespace:Tutor.UserControl"
+        xmlns:Converter="clr-namespace:Tutor.ValueConverter"
+        mc:Ignorable="d"
+        Title="VideoWindow" 
+        Height="700" 
+        Width="600" 
+        MinWidth="100"
+        MinHeight="200"
+        WindowStartupLocation="CenterScreen" 
+        MouseDown="Grid_MouseDown"
+        Loaded="Window_Loaded"
+        LayoutUpdated="Window_LayoutUpdated" Icon="Assets/t_lA0_icon.ico" WindowStyle="None"
+        >
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="controlStyle">
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Converter:TimeDurationToSecondsConverter x:Key="TimeToSeconds" />
+        <Converter:TimeSpanToString x:Key="TimeSpanToString" />
+        <Converter:DoubleToInt x:Key="DoubleToInt"/>
+        <Converter:VolumeIconConverter x:Key="VolumeIconConverter"/>
+
+    </Window.Resources>
+    <Border Name="outerBorder" BorderThickness="1" BorderBrush="Gray" Background="White">
+        <Grid MouseDown="Grid_MouseDown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="Auto" x:Name="TitleRow"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid MouseDown="Grid_MouseDown">
+                <Button Background="Transparent"
+                        FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE739;"
+                        FontSize="10"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Margin="10,5,40,0"
+                        Name="restoreButton"
+                        BorderThickness="0"
+                        ToolTip="FullScreen"
+                        Click="restoreButton_Click"
+                        />
+                <Button Background="Transparent"
+                        FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE10A;"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Margin="10,5,10,0"
+                        ToolTip="Close"
+                        BorderThickness="0"
+                        Click="Button_Click"
+                        />
+            </Grid>
+            <StackPanel Grid.Row="1"
+                        >
+                <TextBlock Grid.Row="1"
+                       Name="videoTitleTextBlock"
+                       Text="Duping Advertisement"
+                       FontFamily="Calibri Light"
+                       TextTrimming="CharacterEllipsis"
+                       FontSize="24"
+                       Margin="20,0,0,0"
+                       VerticalAlignment="Center"
+                       />
+                <TextBlock 
+                       Name="courseTextBlock"
+                       Text="@"
+                    ToolTip="Course"
+                       Foreground="Gray"
+                       FontFamily="Calibri Light"
+                       TextTrimming="CharacterEllipsis"
+                       FontSize="18"
+                       Margin="20,0,0,0"
+                       VerticalAlignment="Center"
+                       />
+            </StackPanel>
+            <Grid Name="overlayWindow" 
+                  Background="White"
+                  Grid.Row="1"
+                  Grid.RowSpan="2"
+                  VerticalAlignment="Stretch"
+                  Panel.ZIndex="1"
+                  >
+                <UC:Progress Height="45"
+                             Width="45"
+                             isActive="True"
+                             x:Name="mainProgressRing"
+                             VerticalAlignment="Stretch"
+                             HorizontalAlignment="Stretch"
+                             />
+                <TextBlock Style="{StaticResource AppTextBlockStyle}"
+                           Text="Loading..."
+                           Name="loadingTextBlock"
+                           FontSize="24"
+                           Foreground="#555555"
+                           HorizontalAlignment="Center"
+                           Margin="0,90,0,0"
+                           />
+            </Grid>
+            <ScrollViewer Grid.Row="2"
+                          Margin="10"
+                          Background="#F5F5F5"
+                          VerticalScrollBarVisibility="Auto"
+                          Name="scrollbar"
+                          CanContentScroll="True"
+                          >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="VideoRow" Height="Auto"/>
+                        <RowDefinition x:Name="ContentRow"/>
+                    </Grid.RowDefinitions>
+                    <Grid Name="mediaContainer"
+                          Margin="10"
+                          Background="Black"
+                          MouseLeave="mediaContainer_MouseLeave" 
+                          >
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard Duration="0:0:0.5">
+                                        <DoubleAnimation From="0" 
+                                                         To="1" 
+                                                         Duration="0:0:0.5"
+                                                         Storyboard.TargetProperty="Opacity" 
+                                                         Storyboard.TargetName="controlsContainer"
+                                                         />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard Duration="0:0:0.5">
+                                        <DoubleAnimation From="1" 
+                                                         To="0" 
+                                                         Duration="0:0:0.5"
+                                                         Storyboard.TargetProperty="Opacity" 
+                                                         Storyboard.TargetName="controlsContainer"
+                                                         />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Grid.Triggers>
+                        
+                        <MediaElement Name="mainMediaElement"
+                                      MinHeight="350"
+                                      MaxHeight="450"
+                                      LoadedBehavior="Manual"
+                                      Position="0"
+                                      Volume="0.5"
+                                      MediaOpened="mainMediaElement_MediaOpened"
+                                      BufferingStarted="mainMediaElement_BufferingStarted"
+                                      BufferingEnded="mainMediaElement_BufferingEnded"
+                                      />
+                        <UC:Progress Height="45"
+                                     Width="45"
+                                     isActive="False"
+                                     x:Name="mediaBufferProgress"
+                                     />
+                        
+                        <StackPanel Height="125"
+                                    Width="50"
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Left"
+                                    Margin="50"
+                                    Panel.ZIndex="3"
+                                    Orientation="Vertical"
+                                    Background="#55222222"
+                                    Name="volumeFlyout"
+                                    Visibility="Collapsed"
+                                    >
+                            <TextBlock FontFamily="Calibri Light"
+                                       Margin="5,5,5,0"
+                                        Text="{Binding ElementName=mainMediaElement, Path=Volume, Mode=OneWay, Converter={StaticResource DoubleToInt}}"
+                                       HorizontalAlignment="Center"
+                                        Foreground="White"
+                                       FontSize="14"
+                                        />
+                            <Slider Orientation="Vertical"
+                                    Height="100"
+                                    Value="{Binding ElementName=mainMediaElement, Path=Volume, Mode=TwoWay, Converter={StaticResource DoubleToInt}}"
+                                    Name="volumeSlider"
+                                    HorizontalAlignment="Center"
+                                    Minimum="0"
+                                    Margin="0,0,0,5"
+                                    Maximum="100"
+                                    IsSelectionRangeEnabled="True"
+                                    Style="{StaticResource videoSeekSlider}"
+                                    />
+                        </StackPanel>
+                        <Grid Height="50"
+                              VerticalAlignment="Bottom"
+                              Background="#55222222"
+                              Name="controlsContainer"
+                              >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="10,0,0,0">
+                                <Button Content="&#xE102;"
+                                        Style="{StaticResource controlStyle}"
+                                        Name="playButton"
+                                        Click="playButton_Click"
+                                        Template="{StaticResource highlightStyle}"
+                                        />
+                                <Button Content="{Binding ElementName=mainMediaElement, Path=Volume, Mode=OneWay, Converter={StaticResource VolumeIconConverter}}"
+                                        Style="{StaticResource controlStyle}"
+                                        Name="volumeButton"
+                                        Click="volumeButton_Click"
+                                        Template="{StaticResource highlightStyle}"
+                                        />
+                                <Button Content="&#xE010;"
+                                        Width="15"
+                                        Margin="0"
+                                        Style="{StaticResource controlStyle}"
+                                        Name="volumeFlyoutButton"
+                                        Click="volumeFlyoutButton_Click"
+                                        FontSize="10"
+                                        Template="{StaticResource highlightStyle}"
+                                        />
+                                <TextBlock FontSize="15"
+                                           Name="currentPositionTextBlock"
+                                           Text="{Binding ElementName=mainMediaElement, Path=Position, Converter={StaticResource TimeSpanToString}}"
+                                           Foreground="White"
+                                           VerticalAlignment="Center"
+                                           Margin="5,0,5,0"
+                                           />
+                            </StackPanel>
+                            <Grid Grid.Column="1"
+                                  Margin="10"
+                                  >
+
+                                <Slider VerticalAlignment="Center"
+                                        Minimum="0"
+                                        Maximum="100"
+                                        Name="seekSlider"
+                                        SelectionStart="0"
+                                        Value="0"
+                                        IsSelectionRangeEnabled="True"
+                                        Thumb.DragCompleted="seekSlider_DragCompleted"
+                                        Style="{DynamicResource videoSeekSlider}"
+                                        />
+
+                            </Grid>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,0,10,0"
+                                        Grid.Column="2">
+                                <TextBlock FontSize="15"
+                                           Text="{Binding ElementName=mainMediaElement, Path=Position, Converter={StaticResource TimeSpanToString}}"
+                                           Foreground="White"
+                                           VerticalAlignment="Center"
+                                           Name="mediaDurationTextBlock"
+                                           Margin="5,0,5,0"
+                                           />
+                                <Button Content="&#xE1D9;"
+                                        Template="{StaticResource highlightStyle}"
+                                        Style="{StaticResource controlStyle}"
+                                        Name="fullScreenButton" Click="fullScreenButton_Click"
+                                        />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+
+                    <StackPanel Name="superContainer" Grid.Row="1">
+                        <Grid Name="statisticsContainer"
+                          Margin="10,0,10,10"
+                          Background="White"
+                          MaxWidth="800"
+                          >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Column="0" 
+                                   Orientation="Horizontal"
+                                   MinHeight="50"
+                                   Margin="10,2,10,0"
+                                   >
+                                <Border BorderBrush="Gray"
+                                    BorderThickness="1"
+                                    VerticalAlignment="Center">
+                                    <Image Height="40"
+                                       Width="40"
+                                       Name="profileImage"
+                                       Source="Assets/blank-profile-picture.png"
+                                       />
+                                </Border>
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource AppTextBlockStyle}"
+                                               FontSize="16"
+                                               FontFamily="Segoe UI"
+                                               Name="authorTextBlock"
+                                               Text="Ravi Verman"
+                                               />
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1"
+                                Margin="5"
+                                >
+                                <StackPanel Orientation="Horizontal"
+                                    Grid.Column="1"
+                                       >
+                                    <Button Style="{StaticResource buttonStyle}" 
+                                            Name="likeButton"
+                                            Foreground="Black"
+                                            Background="Transparent" 
+                                            BorderThickness="0"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Content="&#xE8E1;"
+                                            FontSize="18"
+                                            Padding="0"
+                                            Tag="1"
+                                            Click="LikeDislikeButton_Click">
+                                        <Button.Triggers>
+                                            <EventTrigger RoutedEvent="MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard Duration="0:0:0.1">
+                                                        <ColorAnimation Storyboard.TargetName="likeButton" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" From="Black" To="#ff22b100"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard Duration="0:0:0.1">
+                                                        <ColorAnimation Storyboard.TargetName="likeButton" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" To="Black" From="#ff22b100"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+
+                                    <TextBlock Style="{StaticResource AppTextBlockStyle}"
+                                       Text="0"
+                                       Name="likeTextBlock"
+                                       Margin="0"
+                                       FontSize="18"
+                                       />
+                                    <Button Style="{StaticResource buttonStyle}" 
+                                            Foreground="Black"
+                                            Name="dislikeButton"
+                                            Background="Transparent" 
+                                            BorderThickness="0"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Content="&#xE8E0;"
+                                            FontSize="18"
+                                            Tag="-1"
+                                            Click="LikeDislikeButton_Click"
+                                            Padding="0">        
+                                        <Button.Triggers>
+                                            <EventTrigger RoutedEvent="MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard Duration="0:0:0.1">
+                                                        <ColorAnimation Storyboard.TargetName="dislikeButton" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" From="Black" To="#ff22b100"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard Duration="0:0:0.1">
+                                                        <ColorAnimation Storyboard.TargetName="dislikeButton" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)" To="Black" From="#ff22b100"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                    <TextBlock Style="{StaticResource AppTextBlockStyle}"
+                                       Text="0"
+                                       Name="dislikeTextBlock"
+                                       Margin="0,0,10,0"
+                                       FontSize="18"
+                                       />
+                                </StackPanel>
+                                <ProgressBar Height="3"
+                                             Name="likeDislikeBar"
+                                             BorderThickness="0"
+                                             Background="Red"
+                                             Foreground="{StaticResource AppThemeBrush}" 
+                                             Value="50"
+                                             />
+                            </StackPanel>
+
+                            <!--Row 2 begins-->
+                            <StackPanel Grid.Row="1"
+                                       Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Margin="10,2,0,10"
+                                        >
+
+                                <!--<TextBlock Style="{StaticResource AppTextBlockStyle}"
+                                           FontFamily="Calibri Light"
+                                               Text="Rate Course"
+                                               FontSize="12"
+                                               Margin="2,0,0,2"
+                                               />-->
+                                <UC:RatingControl VerticalAlignment="Center"
+                                                  FontSize="18"
+                                                  x:Name="ratingControl"
+                                                  ToolTip="Rate Course"
+                                                  Cursor="Hand"/>
+                                <WrapPanel Margin="0,5,0,0"
+                                       Name="tagContainer"
+                                       />
+                                
+                            </StackPanel>
+                            <StackPanel Grid.Row="1 "
+                                        Grid.Column="1"
+                                        >
+                                <StackPanel Orientation="Horizontal"
+                                            Grid.Row="1 "
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            Margin="0,0,10,0"
+                                            >
+                                    <TextBlock Style="{StaticResource AppTextBlockStyle}" 
+                                               Margin="5,0,5,0"
+                                                Foreground="Gold"
+                                                Background="Transparent" 
+                                                FontFamily="Segoe MDL2 Assets"
+                                                Text="&#xE00A;"
+                                                FontSize="18"
+                                                Padding="0"
+                                                />
+                                <TextBlock Name="ratingTextBlock"
+                                            Text="2.2"
+                                            FontSize="20"
+                                            Margin="0"
+                                            Style="{StaticResource AppTextBlockStyle}"
+                                            />
+                            </StackPanel>
+                                <Button Padding="0"
+                                        Template="{StaticResource highlightStyle}"
+                                        Background="Transparent"
+                                        Margin="2"
+                                        Click="addToFavoritesButton_Click"
+                                        Name="addToFavoritesButton"
+                                        BorderThickness="0"
+                                        HorizontalAlignment="Right"
+                                        ToolTip="Add to Favorites"
+                                        Cursor="Hand"
+                                        >
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource AppTextBlockStyle}" 
+                                            Foreground="Red"
+                                            Background="Transparent" 
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Text="&#xE109; &#xE006;"
+                                            FontSize="18"
+                                            Padding="0"
+                                                   Name="addFavoriteTextBlock"
+                                            />
+
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                       
+                            <StackPanel Background="White"
+                                        MinHeight="100"
+                                        Margin="10,0,10,10"
+                                        MaxWidth="800"
+                                        Name="descriptionContainer"
+                                        >
+                                <Border BorderThickness="0,0,0,1"
+                                    BorderBrush="Gray"
+                                    Margin="10,5,10,0"
+                                    >
+                                    <TextBlock Style="{StaticResource AppTextBlockStyle}"
+                                       Text="Description"
+                                       FontSize="15"
+                                       FontFamily="Calibri"
+                                       Margin="5"
+                                       />
+                                </Border>
+
+                                <TextBlock Style="{StaticResource AppTextBlockStyle}"
+                                       Text="This is sample Description of the video."
+                                       FontSize="18"
+                                       Margin="10,5"
+                                      Name="descriptionTextBlock"
+                                       TextWrapping="Wrap"
+                                       />
+                            </StackPanel>
+                        <StackPanel Name="commentContainer"
+                                Background="White"
+                                MinHeight="100"
+                                Margin="10,0,10,10"
+                                MaxWidth="800">
+                            <Border BorderThickness="0,0,0,1" 
+                                BorderBrush="Gray"
+                                Margin="10,5,10,0"
+                                >
+                                <TextBlock Style="{StaticResource AppTextBlockStyle}"
+                                       Text="Comments"
+                                       FontSize="15"
+                                       FontFamily="Calibri"
+                                       Margin="5"
+                                       />
+                            </Border>
+                            <ListView Name="commentsListView" 
+                                      MinHeight="200"
+                                      Margin="10,5"
+                                      BorderThickness="0"
+                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                      ScrollViewer.CanContentScroll="True"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      >
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment"  Value="Stretch"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <UC:CommentView IsReadOnlyType="false"
+                                                x:Name="postCommentComment"
+                                                >
+                                </UC:CommentView>                            
+                            </ListView>
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Window>

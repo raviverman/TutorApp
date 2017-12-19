@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Tutor_Server.User_Control.ListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Tutor_Server.User_Control"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             >
+    <!--<UserControl.DataContext>
+        <local:ListItem/>
+    </UserControl.DataContext>-->
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Background="{Binding HintColor}" Width="{Binding HintWidth}"/>
+        <Grid Grid.Column="1" Margin="{Binding PaddingText}">
+            <TextBlock Name="mainTextBlock"
+                       VerticalAlignment="Center"
+                       TextWrapping="WrapWithOverflow"
+                       Text="{Binding Text}"
+                       />
+        </Grid>
+    </Grid>
+</UserControl>

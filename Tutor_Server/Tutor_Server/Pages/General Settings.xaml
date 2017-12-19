@@ -1,0 +1,158 @@
+﻿<Page x:Class="Tutor_Server.Pages.General_Settings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tutor_Server.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="General_Settings"
+      Loaded="Page_Loaded">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Http Server Path (Start)"
+                       Margin="10,10,10,0"
+                       ToolTip="/xampp/apache_start.bat"/>
+            <Grid Margin="10,2,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Name="httpStartPathTextBlock"
+                         Style="{StaticResource textBoxStyle }"
+                        IsEnabled="False"
+                         MaxLength="150"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+                <Button FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE10C;"
+                        Height="25"
+                        Click="browseFile_Click"
+                        Padding="10,5"
+                        Tag="httpStart"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        />
+            </Grid>
+            
+            <TextBlock Text="Http Server Path (Stop)"
+                       Margin="10,10,10,0"
+                       ToolTip="/xampp/apache_stop.bat" />
+            <Grid Margin="10,2,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Name="httpStopPathTextBlock"
+                         Style="{StaticResource textBoxStyle }"
+                        IsEnabled="False"
+                         MaxLength="150"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+                <Button FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE10C;"
+                        Height="25"
+                        Tag="httpStop"
+                        Padding="10,5"
+                        Click="browseFile_Click"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        />
+            </Grid>
+            
+            <TextBlock Text="SQL Server Path (Start)"
+                       Margin="10,10,10,0"
+                       ToolTip="/xampp/mysql_start.bat"/>
+
+            <Grid Margin="10,2,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Name="sqlStartPathTextBlock"
+                         Style="{StaticResource textBoxStyle }"
+                        IsEnabled="False"
+                         MaxLength="150"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+                <Button FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE10C;"
+                        Padding="10,5"
+                        Tag="sqlStart"
+                        Click="browseFile_Click"
+                        Height="25"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        />
+            </Grid>
+            <TextBlock Text="SQL Server Path (Stop)"
+                       Margin="10,10,10,0"
+                       ToolTip="/xampp/mysql_stop.bat"/>
+            <Grid Margin="10,2,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Name="sqlStopPathTextBlock"
+                         Style="{StaticResource textBoxStyle }"
+                        IsEnabled="False"
+                         MaxLength="150"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+                <Button FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE10C;"
+                        Padding="10,5"
+                        Height="25"
+                        Click="browseFile_Click"
+                        Tag="sqlStop"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        />
+            </Grid>
+            <TextBlock Text="Server Root"
+                       Margin="10,10,10,0"
+                       ToolTip="/xampp/htdoc"/>
+            <Grid Margin="10,2,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Name="serverRootTextBlock"
+                         Style="{StaticResource textBoxStyle }"
+                        IsEnabled="False"
+                         MaxLength="150"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+                <Button FontFamily="Segoe MDL2 Assets"
+                        Content="&#xE10C;"
+                        Height="25"
+                        Click="serverRootButton_Click"
+                        Padding="10,5"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        />
+            </Grid>
+            <TextBlock Text="Server Port"
+                       Margin="10,10,10,0"
+                      />
+            <TextBox Name="serverPortTextBlock"
+                          Margin="10,2,10,10"
+                         Style="{StaticResource textBoxStyle }"
+                         MaxLength="150"
+                         LostFocus="TextBlock_LostFocus"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+            <Button Style="{StaticResource buttonStyle}"
+                    Content="Initialize Server Root"
+                    Click="InitializeServerRoot_Click"
+                    Margin="10,5"
+                    />
+        </StackPanel>
+    </Grid>
+</Page>

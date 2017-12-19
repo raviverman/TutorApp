@@ -1,0 +1,200 @@
+﻿<Page x:Class="Tutor_Server.Pages.Home_Page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tutor_Server.Pages"
+      xmlns:UC="clr-namespace:Tutor_Server.User_Control"
+      xmlns:Converter="clr-namespace:Tutor_Server.Converters"
+      mc:Ignorable="d" 
+      Loaded="Page_Loaded"
+      d:DesignHeight="500" d:DesignWidth="700"
+      Title="Home_Page">
+    
+    <Page.Resources>
+        <SolidColorBrush x:Name="TitleBrushGray" x:Key="TitleBrushGray" Color="#FF737373"/>
+        <Style TargetType="TextBlock" x:Key="headerStyle">
+            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+            <Setter Property="FontSize" Value="17"/>
+        </Style>
+        <Converter:timeConverter x:Key="timeConverter"/>
+    </Page.Resources>
+    
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--Column 1-->
+        <Grid Grid.Column="0" Background="#FFF1F1F1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Background="White">
+                <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+                    <TextBlock Name="titleTextBlock" 
+                               Text="Status"
+                               FontFamily="Segoe UI"
+                               Foreground="{StaticResource TitleBrushGray}" 
+                               VerticalAlignment="Center"
+                               FontSize="20"     
+                               />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <ListView Name="statusListView"
+                          Background="#FFF1F1F1"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment"  Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </Grid>
+        </Grid>
+        <!--Column 2-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="0,0,10,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                        <UC:SignalButton Margin="5"
+                                     Height="12"
+                                     Width="12"
+                                     Color="OrangeRed"
+                                     x:Name="serverSignal"
+                                         Grid.Column="0"
+                                     />
+                    <TextBlock Style="{StaticResource headerStyle}"
+                                   Text="HTTP Server"
+                                   Margin="10"
+                                   Grid.Column="1"
+                                   />
+                        <Slider Name="serverButton"
+                                Minimum="0"
+                                Maximum="1"
+                                IsSnapToTickEnabled="True"
+                                Width="40"
+                                ValueChanged="serverButton_ValueChanged"
+                                VerticalAlignment="Center"
+                                Grid.Column="2"
+                                />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <UC:SignalButton Margin="5"
+                                     Height="12"
+                                     Width="12"
+                                     Color="OrangeRed"
+                                     x:Name="databaseSignal"
+                                         Grid.Column="0"
+                                     />
+                    <TextBlock Style="{StaticResource headerStyle}"
+                                   Text="SQL Database"
+                                   Margin="10"
+                                   Grid.Column="1"
+                                   />
+                    <Slider Name="databaseButton"
+                                Minimum="0"
+                                Maximum="1"
+                                IsSnapToTickEnabled="True"
+                                Width="40"
+                            ValueChanged="databaseButton_ValueChanged"
+                                VerticalAlignment="Center"
+                                Grid.Column="2"
+                                />
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <UC:SignalButton Margin="5"
+                                     Height="12"
+                                     Width="12"
+                                     Color="OrangeRed"
+                                     x:Name="mainServerSignal"
+                                         Grid.Column="0"
+                                     />
+                    <TextBlock Style="{StaticResource headerStyle}"
+                                   Text="Tutor Server"
+                                   Margin="10"
+                                   Grid.Column="1"
+                                   />
+                    <Slider Name="mainServerButton"
+                            Minimum="0"
+                            Maximum="1"
+                            IsSnapToTickEnabled="True"
+                            Width="40"
+                            VerticalAlignment="Center"
+                            Grid.Column="2"
+                            ValueChanged="mainServerButton_ValueChanged"
+                                />
+                </Grid>
+                <StackPanel Margin="20,30" >
+                    <TextBlock Name="clientsConnectedTextBlock"
+                               Style="{StaticResource headerStyle}"
+                               Text="{Binding ConnectedClients}"
+                               FontSize="40"
+                               />
+                    <TextBlock Foreground="Gray"
+                               FontFamily="Calibri Light"
+                               Text="Clients"
+                               FontSize="15"
+                               />
+                </StackPanel>
+                <StackPanel Margin="20,10" >
+                    <TextBlock Name="uptimeTextBlock"
+                               Style="{StaticResource headerStyle}"
+                               Text="00:00:00"
+                               FontSize="40"
+                               />
+                    <TextBlock Foreground="Gray"
+                               FontFamily="Calibri Light"
+                               Text="Server Uptime"
+                               FontSize="15"
+                               />
+                </StackPanel>
+            </StackPanel>
+            <Button Style="{StaticResource buttonStyle}"
+                    Height="45"
+                    Grid.Row="1"
+                    Padding="0"
+                    Click="Button_Click"
+                    >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontFamily="Segoe MDL2 Assets"
+                               FontSize="20"
+                               VerticalAlignment="Center"
+                               Text="&#xE115;"
+                               />
+                    <TextBlock Style="{StaticResource AppTextBlockStyle}"
+                               Grid.Column="1"
+                               FontSize="18"
+                               Text="Settings"
+                               />
+                </Grid>
+            </Button>
+            
+        </Grid>
+    </Grid>
+
+</Page>

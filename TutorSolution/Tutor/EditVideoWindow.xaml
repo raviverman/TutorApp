@@ -1,0 +1,189 @@
+﻿<Window x:Class="Tutor.EditVideoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tutor"
+        xmlns:UC="clr-namespace:Tutor.UserControl"
+        mc:Ignorable="d"
+        Title="EditVideoWindow" 
+        Height="600"
+        Width="580"
+        Loaded="Window_Loaded"
+        Icon="Assets/t_lA0_icon.ico"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None"
+        MouseDown="Grid_MouseDown"
+        >
+
+    <Border BorderThickness="1" BorderBrush="Gray" Background="White">
+        <Grid MouseDown="Grid_MouseDown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="45"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid MouseDown="Grid_MouseDown">
+                <Button Background="Transparent"
+                FontFamily="Segoe MDL2 Assets"
+                Content="&#xE10A;"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Margin="10,0,5,0"
+                BorderThickness="0"
+                Click="Button_Click"
+                />
+            </Grid>
+
+            <TextBlock Grid.Row="1"
+                   Text="Edit Video"
+                   FontFamily="Segoe UI Light"
+                   FontSize="24"
+                       Name="titleBar"
+                   Margin="10,0,0,0"
+                   VerticalAlignment="Center"
+                   />
+            <Grid Name="overlayWindow" 
+                  Background="White"
+                  Grid.Row="1"
+                  Grid.RowSpan="2"
+                  VerticalAlignment="Stretch"
+                  Panel.ZIndex="1"
+                  >
+                <UC:Progress Height="45"
+                             Width="45"
+                             isActive="True"
+                             x:Name="mainProgressRing"
+                             VerticalAlignment="Stretch"
+                             HorizontalAlignment="Stretch"
+                             />
+                <TextBlock Style="{StaticResource AppTextBlockStyle}"
+                           Text="Loading..."
+                           Name="loadingTextBlock"
+                           FontSize="24"
+                           Foreground="#555555"
+                           HorizontalAlignment="Center"
+                           Margin="0,90,0,0"
+                           />
+            </Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          Grid.Row="2"
+                          >
+                <StackPanel Grid.Row="2"
+                            Name="panel"
+                             >
+                    <TextBlock Text="Video Title"
+                       Margin="10,10,10,0"/>
+                    <TextBox Name="titleTextBlock"
+                         Style="{StaticResource textBoxStyle }"
+                         Margin="10,2,10,10"
+                         MaxLength="50"
+                         Text=""
+                         FontFamily="Calibri Light"
+                          />
+                    <TextBlock Text="Description"
+                       Margin="10,0,10,0"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBox Name="descriptionTextBlock"
+                             Style="{StaticResource textBoxStyle }"
+                             Margin="10,2,10,10"
+                             VerticalContentAlignment="Top"
+                             MaxLength="200"
+                             FontFamily="Calibri Light"
+                             TextWrapping="Wrap"
+                             Text=""
+                             MinHeight="100"
+                             />
+                    </ScrollViewer>
+                    <Button Style="{StaticResource buttonStyle}" 
+                        Content="Choose Thumbnail"
+                        Width="120"
+                        Template="{DynamicResource highlightStyle}"
+                        Name="chooseThumbnailButton"
+                        Click="chooseThumbnailButton_Click"
+                        />
+                    <Border Margin="5" 
+                        Width="240"
+                        BorderThickness="1"
+                        BorderBrush="Gray">
+                        <Image Height="120"
+                               Name="thumbnailContainer"
+                           Width="240" Source="Assets/T_grayed.png"
+                           />
+                    </Border>
+                    <TextBlock Text="Edit Tags (Max. 5)"
+                                Margin="10,10,10,0"
+                               Name="tagHeadingTextBlock"
+                               />
+
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="addTagsBlock"
+                                 Style="{StaticResource textBoxStyle }"
+                                 MaxLength="25"
+                                 Text=""
+                                 KeyDown="addTagsBlock_KeyDown"
+                                 FontFamily="Calibri Light"
+                                  />
+                        <Button FontFamily="Segoe MDL2 Assets"
+                            Style="{StaticResource buttonStyle}" 
+                            Content="&#xE109;"
+                            FontSize="15"
+                            Name="addTagButton"
+                            Click="addTagButton_Click"
+                            Width="40" 
+                            VerticalContentAlignment="Center"
+                            Grid.Column="1"
+                            Template="{DynamicResource highlightStyle}"
+                            />
+
+                    </Grid>
+                    <WrapPanel Name="tagsContainer"
+                           Margin="10"
+                           />
+                    <ProgressBar Name="videoUploadProgressBar"
+                             Width="250"
+                             Height="5"
+                             Value="58"
+                             Visibility="Collapsed"
+                             />
+                    <StackPanel Margin="10"
+                        Orientation="Horizontal">
+                        <Button Style="{StaticResource buttonStyle}" 
+                            Content="Modify"
+                            Width="70" 
+                            Template="{DynamicResource highlightStyle}"
+                            Name="modifyVideoButton"
+                            Click="modifyVideoButton_Click"
+                            />
+                        <Button Style="{StaticResource buttonStyle}" 
+                            BorderBrush="Gray"
+                            Background="White"
+                            Content="Cancel"
+                            Foreground="Gray"
+                            Width="50"
+                            Margin="10,0,0,0"
+                            Template="{DynamicResource highlightStyle}"
+                            Click="Button_Click"
+                            />
+                        <UC:Progress x:Name="progressRing" Height="25" Width="25" isActive="False" Margin="10,0,0,0"/>
+                        <TextBlock Name="errorTextBlock"
+                               Style="{StaticResource AppTextBlockStyle}"
+                               FontSize="12"
+                               Foreground="Red"
+                               TextWrapping="Wrap"
+                               TextTrimming="CharacterEllipsis"
+                               Text=""
+                           />
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
+            
+        </Grid>
+    </Border>
+</Window>

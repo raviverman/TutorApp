@@ -1,0 +1,90 @@
+﻿<Page x:Class="Tutor_Server.Pages.Database_Settings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tutor_Server.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="300"
+      Title="Database_Settings"
+      Loaded="Page_Loaded">
+
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Database Name"
+                       Margin="10,10,10,0"
+                       />
+
+                <TextBox Name="databaseNameTextBlock"
+                         Margin="10,2,10,10"
+                         Tag="databasename"
+                          LostFocus="TextBlock_LostFocus"
+                         Style="{StaticResource textBoxStyle }"
+                         MaxLength="150"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+            <TextBlock Text="Database Port"
+                       Margin="10,10,10,0"
+                       />
+            <TextBox Name="databasePortTextBlock"
+                          Margin="10,2,10,10"
+                         Style="{StaticResource textBoxStyle }"
+                         MaxLength="150"
+                         Tag="databaseport"
+                          LostFocus="TextBlock_LostFocus"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+            <TextBlock Text="Username"
+                       Margin="10,10,10,0"
+                       ToolTip="/xampp/apache_start.bat"/>
+            <TextBox Name="usernameTextBlock"
+                          Margin="10,2,10,10"
+                         Style="{StaticResource textBoxStyle }"
+                         MaxLength="150"
+                         Tag="username"
+                          LostFocus="TextBlock_LostFocus"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+            <TextBlock Text="Password"
+                       Margin="10,10,10,0"
+                      />
+            <PasswordBox  Name="passwordTextBlock"
+                          Margin="10,2,10,10"
+                          Tag="password"
+                          LostFocus="TextBlock_LostFocus"
+                          Style="{StaticResource passwordBoxStyle }"
+                          MaxLength="150"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+            <CheckBox Name="specificIPcheckBox" 
+                      Margin="10,2,10,10" 
+                      Content="Server Listens on Specific IP"
+                      Checked="TextBlock_LostFocus"
+                      Tag="specificip"
+                      Unchecked="TextBlock_LostFocus"/>
+            <StackPanel IsEnabled="{Binding ElementName=specificIPcheckBox, Path=IsChecked}">
+                <TextBlock Text="Server IP"
+                       Margin="10,10,10,0"
+                       />
+                <TextBox Name="specificIPTextBlock"
+                          Margin="10,2,10,10"
+                         Style="{StaticResource textBoxStyle }"
+                         MaxLength="150"
+                         LostFocus="TextBlock_LostFocus"
+                         Tag="specificip"
+                         FontFamily="Calibri Light"
+                         AutomationProperties.IsRequiredForForm="True"
+                         />
+            </StackPanel>
+            <Button Style="{StaticResource buttonStyle}"
+                    Content="Initialize Database"
+                    Click="InitializeDatabase_Click"
+                    Margin="10,5"
+                    />
+        </StackPanel>
+    </Grid>
+</Page>
